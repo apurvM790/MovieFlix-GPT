@@ -1,11 +1,55 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header"
-
+import { CheckValidation } from "../utils/validate";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 const Login = ()=> {
 
     const [isSignIN , setIsSignIn] = useState(true);
+    const [isValidInfo, setIsValidInfo] = useState(null);
 
-    const handleSignUp = (event)=> {
+    const email = useRef(null);
+    const password = useRef(null);
+    const Name = useRef(null);
+
+    const handleSignIn = (event)=>{
+        event.preventDefault();
+        const isValid = CheckValidation(email.current.value,password.current.value);
+        setIsValidInfo(isValid);
+        
+        if(isValid) return;
+
+        if(!isSignIN){
+            // sign Up (create user)
+            createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+            .then((userCredential)=>{
+                const user = userCredential.user;
+                console.log(user);
+            })
+            .catch((error)=>{
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setIsValidInfo(errorCode+" - "+errorMessage);
+
+            });
+        }
+        else{
+            // sign in (authenticate) 
+            signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+            .then((userCredential)=>{
+                const user = userCredential.user;
+                console.log(user);
+            })
+            .catch((error)=>{
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setIsValidInfo(errorCode+" - "+errorMessage);
+            });
+        }
+
+    }
+
+    const toggleSignInSignUp = (event)=> {
         event.preventDefault();
         setIsSignIn(!isSignIN);
     };
@@ -20,22 +64,22 @@ const Login = ()=> {
                 <h1 className="font-bold text-4xl py-2 text-white">{isSignIN ? "Sign In" : "Sign Up"}</h1>
 
                 {!isSignIN && 
-                <input className="py-3 my-3 pl-3 rounded-lg bg-black opacity-90 text-white border-[1px] border-white" 
+                <input ref={Name} className="py-3 my-3 pl-3 rounded-lg bg-black opacity-90 text-white border-[1px] border-white" 
                 type="text" placeholder="Full Name"/>}
                 
-                <input className="py-3 my-3 pl-3 rounded-lg bg-black opacity-90 text-white border-[1px] border-white" 
+                <input ref={email} className="py-3 my-3 pl-3 rounded-lg bg-black opacity-90 text-white border-[1px] border-white" 
                 type="text" placeholder="Email or mobile number"/>
 
-                <input className="py-3 my-3 pl-3 rounded-lg bg-black opacity-90 text-white border-[1px] border-white" 
+                <input ref={password} className="py-3 my-3 pl-3 rounded-lg bg-black opacity-90 text-white border-[1px] border-white" 
                 type="password" placeholder="Password"/>
-
-                <button className="my-4 border-0 shadow-xl bg-red-700 text-lg text-white py-2 rounded-lg">
+                <p className="font-bold text-lg text-red-600 ">{isValidInfo}</p>
+                <button className="my-4 border-0 shadow-xl bg-red-700 text-lg text-white py-2 rounded-lg" onClick={handleSignIn}>
                     {isSignIN? "Sign in" : "Sign Up"}</button>
 
                 <h3 className="text-white ml-44">OR</h3>
 
                 <button className="my-4 border-0 shadow-xl bg-gray-600 opacity-85 text-lg font-bold text-white py-2 rounded-lg" 
-                onClick={handleSignUp}>{isSignIN ? "Sign Up now" : "Sign in"}</button>
+                onClick={toggleSignInSignUp}>{isSignIN ? "Sign Up now" : "Sign in"}</button>
             </form>
 
 
