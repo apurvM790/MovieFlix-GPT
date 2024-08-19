@@ -8,8 +8,8 @@
     ],
     "rewrites": [
       {
-        "source": "/netflix-gpt/**",
-        "destination": "/netflix-gpt/index.html"
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }
