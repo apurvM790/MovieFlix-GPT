@@ -2,7 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import {auth} from "../utils/firebase";
 import { useSelector } from "react-redux";
-const HeaderBrowse = ()=> {
+
+const Header = ()=> {
     const user =  useSelector((store)=>store.user);
     const navigate = useNavigate();
     const handleSignOut = ()=>{
@@ -13,7 +14,8 @@ const HeaderBrowse = ()=> {
     .catch((error)=>{
         navigate("/error");
     });
-}
+    }
+
 
     return (
         <div className="absolute flex flex-wrap w-screen justify-between bg-gradient-to-b from-slate-700 to-white">
@@ -34,4 +36,4 @@ const HeaderBrowse = ()=> {
 
     )
 }
-export default HeaderBrowse;
+export default Header;
