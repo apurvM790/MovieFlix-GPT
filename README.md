@@ -19,6 +19,13 @@
 - add hardcoded values to the constants.js in utils
 - register tmdb api and create app & get access token
 - get api data from movies list [now playing]
+- custom hook for nowPlayinMovie
+- create movie slice
+- update store with movie data
+- planning for mainContainer & SecondaryContainer
+- fetch trailer vedio and update store
+- embed the movie trailer from you tubw
+- and make it autoplay and mute.
 
 
 

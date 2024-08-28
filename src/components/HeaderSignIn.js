@@ -6,9 +6,11 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO } from "../utils/constants";
-
+import { toggleGptSearchView, toggleMovieSearchView, toggleTvShowView } from "../utils/gptSlice";
+import { Link } from "react-router-dom";
 
 const HeaderSignIn = ()=> {
+    // useNowPlayingMovies();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -27,6 +29,7 @@ const HeaderSignIn = ()=> {
             if(user){
                 const {uid, email, displayName, photoURL} = user;
                 dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL}));
+                
                 navigate("/browse");
             }
             else{
@@ -36,21 +39,35 @@ const HeaderSignIn = ()=> {
         })
     },[])
     
+    const handleToggleGptSearch = ()=>{ 
+        dispatch(toggleGptSearchView());
+    }
+
+    const handleToggleTvShow = ()=>{
+        dispatch(toggleTvShowView());
+        
+    }
+    
+    const handleToggleMovieSearch = ()=>{
+        dispatch(toggleMovieSearchView());
+        
+    }
+    
     return (
-        <div className="absolute w-screen mx-auto py-2 z-10 flex bg-gradient-to-b from-black ">
-            <img className="w-32 mx-10" src={LOGO} />
+        <div className="absolute w-screen mx-auto py-2 z-10 flex grid-cols-12 bg-gradient-to-b from-black ">
+            <img className="w-32 mx-10 col-span-3" src={LOGO} />
             {user && (
-                <div className="flex justify-between ">
-                <div>
-                <button className="my-2 w-20 font-bold text-lg mx-2 text-white ">Home</button>
-                <button className="my-2 w-28 font-bold text-lg text-white">TV Shows</button>
-                <button className="my-2 w-28 font-bold text-lg text-white">Movies</button>
-                <button className="my-2 w-40 font-bold text-lg text-white">New & Popular</button>
-                <button className="my-2 w-28 font-bold text-lg text-white">My List</button>
+                <div className="w-screen flex  justify-between ">
+                <div className="my-3 animate-pulse ">
+                <button className="my-2 w-28 font-bold text-lg text-gray-300" onClick={handleToggleTvShow}>TV Shows</button>
+                <button className="my-2 w-28 font-bold text-lg text-gray-300" onClick={handleToggleMovieSearch}>Movies</button>
+                
                 </div>
-                <div className="flex ml-[580px]">
+                <div className="flex mx-5">
+                    <button className="py-2 px-2 mx-4 my-2 bg-purple-400 transition-all hover:scale-110 rounded-xl shadow-lg border-r-orange-400 border-b-orange-400 border-r-4 border-b-4" 
+                    onClick={handleToggleGptSearch}>Gpt Search</button>
                 <img className="size-12 my-2" src={user?.photoURL} alt="usericon"/>
-                <button className="mx-1 py-2 my-2 rounded-lg shadow-xl px-2 bg-lime-200 text-lg text-slate-700 font-bold" onClick={handleSignOut}>Sign-Out</button>    
+                <button className="mx-1 py-2 my-2 rounded-lg shadow-xl px-2 bg-gray-400 text-lg text-slate-700 font-bold" onClick={handleSignOut}>Sign-Out</button>    
             </div>
             </div>
         )}      
@@ -58,5 +75,3 @@ const HeaderSignIn = ()=> {
     )
 }
 export default HeaderSignIn;
-
-// "https://occ-0-6247-2164.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABdpkabKqQAxyWzo6QW_ZnPz1lZLqlmNfKt4L1VleV1DY00JhLo_LMVEp936keDxj-V5UELAVJrU--iUUY2MaDxQSSO-Oqw.png?r=e6e"

@@ -2,18 +2,29 @@ import { useSelector } from "react-redux";
 import VedioBackground from "./VedioBackground";
 import VedioTitle from "./VedioTitle";
 
-const MainContainer = ()=>{
-    const movies = useSelector((store)=> store.movies?.nowPlayingMovies);
+import Shimmer from "./Shimmer";
 
-    const mainMovie = movies[0];
-    console.log(mainMovie);
+const MainContainer = () => {
+  
 
-    const { original_title, overview } = mainMovie;
+  const movies = useSelector((store) => store.movies?.nowPlayingMovies);
+  
+  if (!movies || movies.length==0) return;
+  
+  const mainMovie = movies[0];
 
-    return <div>
-        <VedioTitle title={original_title} overview={overview}/>
-        <VedioBackground />
+  if(mainMovie===undefined) return;
+  const { original_title, overview, id } = mainMovie;
+  
+  return !mainMovie ? (
+    <Shimmer />
+  ) : (
+    <div className="">
+      <VedioTitle title={original_title} overview={overview} />
+      <VedioBackground movieId={id} />
     </div>
-}
+  );
+  // return <div>MainContainer</div>
+};
 
 export default MainContainer;

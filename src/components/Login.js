@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { USER_AVATAR } from "../utils/constants";
+import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 
 const Login = ()=> {
 
