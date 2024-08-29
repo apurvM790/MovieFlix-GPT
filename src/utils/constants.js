@@ -14,4 +14,4 @@ export const GET_OPTIONS = {
 
 export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w780";
 
-export const GPT_KEY = "sk-rFuQ_s0vLz-RWS0eEENvoGse5dmPYDvxcD-s6ChV99T3BlbkFJn0YeLrouczHaZz7Z8UIjkMk_r_aZZTmETa6ihhXBcA";
+export const secretKey = process.env.REACT_APP_OPENAI_SECRET_KEY;

@@ -64,7 +64,7 @@ const HeaderSignIn = ()=> {
                 
                 </div>
                 <div className="flex mx-5">
-                    <button className="py-2 px-2 mx-4 my-2 bg-purple-400 transition-all hover:scale-110 rounded-xl shadow-lg border-r-orange-400 border-b-orange-400 border-r-4 border-b-4" 
+                    <button className="py-2 px-2 mx-4 my-2 bg-purple-400 text-lg font-semibold transition-all hover:scale-110 rounded-xl shadow-lg  " 
                     onClick={handleToggleGptSearch}>Gpt Search</button>
                 <img className="size-12 my-2" src={user?.photoURL} alt="usericon"/>
                 <button className="mx-1 py-2 my-2 rounded-lg shadow-xl px-2 bg-gray-400 text-lg text-slate-700 font-bold" onClick={handleSignOut}>Sign-Out</button>    
